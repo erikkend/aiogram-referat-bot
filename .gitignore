@@ -1,4 +1,4 @@
 .venv
 .env
-Чат-бот.docx
-.~lock.Чат-бот.docx#
+__pycache__
+.idea
