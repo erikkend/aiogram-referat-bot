@@ -8,8 +8,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from handlers import router, pre_checkout_query, successful_payment
-
+from handlers import router
+from db import init_db
 
 load_dotenv()
 
@@ -20,6 +20,7 @@ dp.include_router(router)
 
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    await init_db()
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
