@@ -8,7 +8,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from handlers import router
+from handlers import menu_handlers, payment_handlers
 from db import init_db
 
 load_dotenv()
@@ -16,7 +16,8 @@ load_dotenv()
 TOKEN = os.getenv("TG_TOKEN")
 
 dp = Dispatcher()
-dp.include_router(router)
+dp.include_router(menu_handlers.router)
+dp.include_router(payment_handlers.router)
 
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
