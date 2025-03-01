@@ -8,7 +8,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from handlers import router
+from handlers import router, pre_checkout_query, successful_payment
 
 
 load_dotenv()

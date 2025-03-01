@@ -9,7 +9,7 @@ start_kb = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 gen_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text="📝 Написать документ ", callback_data='gen_doc')],
+    [InlineKeyboardButton(text="📝 Написать документ", callback_data='gen_doc')],
     [InlineKeyboardButton(text="🙌 Увеличить объём текста", callback_data='increase_text'), InlineKeyboardButton(text="✍️ Переписать другими словами", callback_data='rewrite_text')],
     [InlineKeyboardButton(text="🎨 Изменить стиль текста", callback_data='change_text_style'), InlineKeyboardButton(text="📈 Повысить уникальность - платно", callback_data='increase_text_uniq')],
     [InlineKeyboardButton(text="Назад", callback_data='main_menu')]
