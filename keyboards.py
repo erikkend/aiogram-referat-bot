@@ -3,15 +3,14 @@ from aiogram.utils.keyboard import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 main_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text="✏️Генерировать документ", callback_data='documents')],
+    [InlineKeyboardButton(text="✏️Генерировать документ", callback_data='write_doc')],
     [InlineKeyboardButton(text="📊Моя подписка", callback_data='sub_info'), InlineKeyboardButton(text="💬Поддержка", callback_data='supp')],
     [InlineKeyboardButton(text="🤝Пригласить друга", callback_data='invite_friend')]
 ])
 
 doc_kb = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text="📝 Написать документ", callback_data='write_doc')],
-    [InlineKeyboardButton(text="🙌 Увеличить объём текста", callback_data='increase_text'), InlineKeyboardButton(text="✍️ Переписать другими словами", callback_data='rewrite_text')],
-    [InlineKeyboardButton(text="🎨 Изменить стиль текста", callback_data='change_text_style'), InlineKeyboardButton(text="📈 Повысить уникальность - платно", callback_data='increase_text_uniq')],
+    [InlineKeyboardButton(text="🙌 Увеличить объём текста", callback_data='expand_text'), InlineKeyboardButton(text="✍️ Переписать другими словами", callback_data='rewrite_text')],
+    [InlineKeyboardButton(text="🎨 Изменить стиль текста", callback_data='change_style'), InlineKeyboardButton(text="📈 Повысить уникальность - платно", callback_data='increase_uniqueness')],
     [InlineKeyboardButton(text="Назад", callback_data='main_menu')]
 ])
 
