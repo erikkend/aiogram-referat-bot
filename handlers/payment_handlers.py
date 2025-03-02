@@ -1,14 +1,19 @@
+import os
 import re
+
+import db
+
+from keyboards import back_to_main_kb
 
 from aiogram import Router, F, Bot
 from aiogram.types import Message, CallbackQuery, LabeledPrice, PreCheckoutQuery
+from dotenv import load_dotenv
 
-import db
-from keyboards import back_to_main_kb
 
+load_dotenv()
 
 router = Router()
-
+provider_token = os.getenv("PROVIDER_TOKEN")
 
 @router.callback_query(F.data.regexp(r'\d+days_tariff'))
 async def tariff_pay(callback: CallbackQuery, bot: Bot):
@@ -26,9 +31,9 @@ async def tariff_pay(callback: CallbackQuery, bot: Bot):
     await bot.send_invoice(
         chat_id=callback.message.chat.id,
         title=f"Подписка на {days} дней",
-        description=f"Подписка в боте",
+        description=f"Подписка в боте. Тестовая карточка 4548819407777774",
         payload=days,
-        provider_token="2051251535:TEST:OTk5MDA4ODgxLTAwNQ",
+        provider_token=provider_token,
         currency='RUB',
         prices=[price]
     )

@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 DB_PATH = "database.db"  # Путь к файлу базы данных
 
 async def init_db():
-    """Создает таблицу пользователей, если она не существует"""
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("""
             CREATE TABLE IF NOT EXISTS users (
@@ -16,7 +15,6 @@ async def init_db():
         await db.commit()
 
 async def add_user(user_id: int):
-    """Добавляет пользователя в базу, если его нет"""
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("""
             INSERT INTO users (user_id) 
@@ -26,7 +24,6 @@ async def add_user(user_id: int):
         await db.commit()
 
 async def update_balance(user_id: int, amount: int):
-    """Обновляет баланс пользователя"""
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("""
             UPDATE users 
@@ -36,7 +33,6 @@ async def update_balance(user_id: int, amount: int):
         await db.commit()
 
 async def set_subscription(user_id: int, days: int):
-    """Устанавливает подписку на определенное количество дней"""
     expiry_date = datetime.now() + timedelta(days=days)
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("""
@@ -47,7 +43,6 @@ async def set_subscription(user_id: int, days: int):
         await db.commit()
 
 async def get_user_info(user_id: int):
-    """Получает информацию о пользователе"""
     async with aiosqlite.connect(DB_PATH) as db:
         async with db.execute("""
             SELECT balance, subscription_expiry 
@@ -61,7 +56,6 @@ async def get_user_info(user_id: int):
             return None
 
 async def check_subscription(user_id: int):
-    """Проверяет, активна ли подписка"""
     async with aiosqlite.connect(DB_PATH) as db:
         async with db.execute("""
             SELECT subscription_expiry 

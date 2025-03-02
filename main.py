@@ -1,18 +1,19 @@
-import asyncio
-import logging
 import os
 import sys
-from dotenv import load_dotenv
 
-from aiogram import Bot, Dispatcher
-from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ParseMode
+import asyncio
+import logging
 
-from handlers import menu_handlers, payment_handlers
 from db import init_db
+from handlers import menu_handlers, payment_handlers
+
+from dotenv import load_dotenv
+from aiogram import Bot, Dispatcher
+from aiogram.enums import ParseMode
+from aiogram.client.default import DefaultBotProperties
+
 
 load_dotenv()
-
 TOKEN = os.getenv("TG_TOKEN")
 
 dp = Dispatcher()

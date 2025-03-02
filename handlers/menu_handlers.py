@@ -1,21 +1,23 @@
-from aiogram import Router, F
-from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, CallbackQuery
-from aiogram.filters import CommandStart, Command
-from aiogram.fsm.state import StatesGroup, State
-
-
 import db
+
 from texts import start_text
 from utils import require_subscription
 from keyboards import main_kb, doc_kb, select_tariff_kb, tariffs_kb
-from services.gemini_test import TextGenerator
+from services.gemini_api import TextGenerator
 from middlewares import TextGeneratorMiddleware
+
+from aiogram import Router, F
+from aiogram.fsm.context import FSMContext
+from aiogram.types import Message, CallbackQuery
+from aiogram.filters import CommandStart
+from aiogram.fsm.state import StatesGroup, State
+
 
 router = Router()
 txt_generator = TextGenerator()
 router.message.middleware(TextGeneratorMiddleware(txt_generator))
 router.callback_query.middleware(TextGeneratorMiddleware(txt_generator))
+
 
 class DocumentState(StatesGroup):
     waiting_for_topic = State()
@@ -34,18 +36,15 @@ async def start(callback: CallbackQuery):
 @router.callback_query(F.data == 'sub_info')
 async def sub_menu(callback: CallbackQuery):
     await callback.answer()
-
     user_info = await db.get_user_info(callback.from_user.id)
     user_balance = user_info["balance"]
     user_sub_expiry = "Подписки нет" if user_info["subscription_expiry"] is None else user_info["subscription_expiry"]
-
     await callback.message.edit_text(text=f"""Ваш баланс: {user_balance}\nПодписка до: {user_sub_expiry}""", reply_markup=select_tariff_kb)
 
 @router.callback_query(F.data == 'select_tariff')
 async def tariffs_menu(callback: CallbackQuery):
     await callback.answer()
     await callback.message.edit_text(text="Выберите один из тарифов", reply_markup=tariffs_kb)
-
 
 @router.callback_query(F.data == 'write_doc')
 @require_subscription
@@ -56,11 +55,9 @@ async def write_doc(callback: CallbackQuery, state: FSMContext):
 
 @router.message(DocumentState.waiting_for_topic)
 async def generate_document(message: Message, state: FSMContext, text_generator: TextGenerator):
-    topic = message.text  # Получаем тему документа
-
+    topic = message.text
     await message.answer(f"⏳ Генерирую текст для темы: {topic}...")
     document_text = await text_generator.generate_text_by_topic(message.from_user.id,topic)
-
     await message.answer(f"📄 Ваш документ по теме *{topic}*:\n\n{document_text}", parse_mode="Markdown", reply_markup=doc_kb)
     await state.set_state(DocumentState.editing_text)
     await state.update_data(topic=topic)

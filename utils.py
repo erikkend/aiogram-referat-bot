@@ -1,9 +1,9 @@
 import aiosqlite
+
 from db import DB_PATH
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from functools import wraps
-
 from aiogram.types import Message
 
 
