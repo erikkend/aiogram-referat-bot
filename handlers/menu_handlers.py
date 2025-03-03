@@ -50,9 +50,8 @@ async def support_contacts(callback: CallbackQuery):
 async def sub_menu(callback: CallbackQuery):
     await callback.answer()
     user_info = await db.get_user_info(callback.from_user.id)
-    user_balance = user_info["balance"]
-    user_sub_expiry = "Подписки нет" if user_info["subscription_expiry"] is None else user_info["subscription_expiry"]
-    await callback.message.edit_text(text=f"""Ваш баланс: {user_balance}\nПодписка до: {user_sub_expiry}""", reply_markup=select_tariff_kb)
+    user_sub_expiry = "⛔ У вас нет подписки" if user_info["subscription_expiry"] is None else user_info["subscription_expiry"]
+    await callback.message.edit_text(text=f"""🔑 Ваша подписка действует до: {user_sub_expiry}""", reply_markup=select_tariff_kb)
 
 @router.callback_query(F.data == 'select_tariff')
 async def tariffs_menu(callback: CallbackQuery):

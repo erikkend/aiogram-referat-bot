@@ -2,8 +2,6 @@ from aiogram import BaseMiddleware
 from aiogram.types import Update
 from typing import Dict, Any
 
-from services.gemini_api import TextGenerator
-
 class TextGeneratorMiddleware(BaseMiddleware):
     def __init__(self, text_generator):
         super().__init__()
