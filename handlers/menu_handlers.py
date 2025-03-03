@@ -1,8 +1,8 @@
 import db
 
-from texts import start_text
+from texts import start_text, supp_text
 from utils import require_subscription
-from keyboards import main_kb, doc_kb, select_tariff_kb, tariffs_kb, share_friend_kb
+from keyboards import main_kb, doc_kb, select_tariff_kb, tariffs_kb, share_friend_kb, back_to_main_kb
 from services.gemini_api import TextGenerator
 from middlewares import TextGeneratorMiddleware
 
@@ -35,11 +35,16 @@ async def start(callback: CallbackQuery):
     await callback.message.edit_text(text=start_text, reply_markup=main_kb)
 
 @router.callback_query(F.data == "invite_friend")
-async def invite_friend(callback:CallbackQuery, bot: Bot):
+async def invite_friend(callback: CallbackQuery, bot: Bot):
     await callback.answer()
     await bot.send_message(callback.from_user.id,
                            f'Перешли сообщение другу👇👇👇',
                             reply_markup=share_friend_kb)
+
+@router.callback_query(F.data == "supp")
+async def support_contacts(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer(supp_text, reply_markup=back_to_main_kb)
 
 @router.callback_query(F.data == 'sub_info')
 async def sub_menu(callback: CallbackQuery):
