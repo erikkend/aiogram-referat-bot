@@ -2,16 +2,17 @@ import db
 
 from texts import start_text
 from utils import require_subscription
-from keyboards import main_kb, doc_kb, select_tariff_kb, tariffs_kb
+from keyboards import main_kb, doc_kb, select_tariff_kb, tariffs_kb, share_friend_kb
 from services.gemini_api import TextGenerator
 from middlewares import TextGeneratorMiddleware
 
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import CommandStart
 from aiogram.fsm.state import StatesGroup, State
 
+from aiogram.utils.keyboard import InlineKeyboardMarkup, InlineKeyboardButton
 
 router = Router()
 txt_generator = TextGenerator()
@@ -32,6 +33,13 @@ async def start(message: Message):
 async def start(callback: CallbackQuery):
     await callback.answer()
     await callback.message.edit_text(text=start_text, reply_markup=main_kb)
+
+@router.callback_query(F.data == "invite_friend")
+async def invite_friend(callback:CallbackQuery, bot: Bot):
+    await callback.answer()
+    await bot.send_message(callback.from_user.id,
+                           f'Перешли сообщение другу👇👇👇',
+                            reply_markup=share_friend_kb)
 
 @router.callback_query(F.data == 'sub_info')
 async def sub_menu(callback: CallbackQuery):

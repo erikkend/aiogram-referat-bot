@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardMarkup, InlineKeyboardButton
-
+from texts import message_to_friend
 
 main_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text="✏️Генерировать документ", callback_data='write_doc')],
@@ -27,3 +27,8 @@ tariffs_kb = InlineKeyboardMarkup(inline_keyboard=[
 back_to_main_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text="Главное меню", callback_data='main_menu')],
 ])
+
+share_friend_kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Поделиться с другом", switch_inline_query=message_to_friend)],
+        [InlineKeyboardButton(text="Главное меню", callback_data='main_menu')]
+    ])
